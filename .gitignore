@@ -1,0 +1,11 @@
+# Python
+*.pyc
+__pycache__/
+venv/
+*.log
+
+# Docker
+.DS_Store
+.dockerignore
+.docker/
+.dockerignore
