@@ -2,14 +2,23 @@
 FROM alpine:latest
 
 # Install required dependencies
-RUN apk update && apk add tor python3
+RUN apk add --no-cache tor python3 python3-dev py3-pip
+
+# Create a virtual environment
+RUN python3 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
 
 # Copy required files to destination directory
 COPY config/torrc /etc/tor/
 COPY src /app
+COPY requirements.txt /app
 
 # Expose necessary ports
-EXPOSE 9050
+EXPOSE 5000 9050
+
+# Install Python dependencies
+WORKDIR /app
+RUN pip3 install -r requirements.txt
 
 # Run required commands
-CMD ["sh", "-c", "cd /app && python3 -m http.server --bind 127.0.0.1 5000 & tor"]
+CMD ["sh", "-c", "python3 app.py & tor"]

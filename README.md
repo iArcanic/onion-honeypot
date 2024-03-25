@@ -3,34 +3,70 @@ A low interaction honeypot decoy program to lure potential attackers using Tor H
 
 ## Usage
 
-1. Build the Docker image
+### Access Flask RESTful API endpoint
+
+1. Build the Docker image and run the container
 
 ```bash
-docker build -t <IMAGE_TAG> .
+docker-compose up --build
 ```
 
-2. Verify whether the image has been created
+2. Open API endpoint
+
+- Access the URL in the browser directly, at:
+
+    ```bash
+    http://127.0.0.1:5000
+    ```
+
+    or
+
+    ```bash
+    http://localhost:5000
+    ```
+
+- With `curl`:
+
+    ```bash
+    curl localhost:5000
+    ```
+
+- With `wget`:
+
+    ```bash
+    wget -O - localhost:5000
+    ```
+
+3. Remove the existing Docker container
 
 ```bash
-docker images
+docker-compose down
 ```
 
-3. Run a container with the built image
+### Accessing the `.onion` hidden service site
+
+1. Build the Docker image and run the container
 
 ```bash
-docker run -p <PORT>:9050 <IMAGE_TAG>
+docker-compose up --build
 ```
 
-4. Open a new terminal tab and verify that the container is running
+2. Open a new terminal tab and get the container's ID
 
 ```bash
 docker ps -a
 ```
 
-5. `cat` the contents of the `hostname` file to get the `.onion` URL string
+3. Display the contents of the `hostname` file to get the `.onion` URL string using the container ID
 
 ```bash
 docker exec -ti <CONTAINER_ID> cat /var/lib/tor/hidden_service/hostname
 ```
 
-6. Run the `.onion` site in a Tor-enabled application
+4. Run the `.onion` site in a Tor-enabled application
+
+5. Remove the existing Docker container
+
+```bash
+docker-compose down
+```
