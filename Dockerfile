@@ -11,7 +11,6 @@ ENV PATH="/venv/bin:$PATH"
 # Copy required files to destination directory
 COPY config/torrc /etc/tor/
 COPY src /app
-COPY requirements.txt /app
 
 # Expose necessary ports
 EXPOSE 5000 9050
