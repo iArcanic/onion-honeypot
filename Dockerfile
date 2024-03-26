@@ -21,4 +21,4 @@ WORKDIR /app
 RUN pip3 install -r requirements.txt
 
 # Run required commands
-CMD ["sh", "-c", "python3 app.py & tor"]
+CMD ["sh", "-c", "python3 flask_app/app.py & tor"]
