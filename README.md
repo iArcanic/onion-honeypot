@@ -33,7 +33,61 @@ cd onion-honeypot
 
 > NOTE: Ensure that you are in the project's root directory before running any of the following usage commands
 
-### Access Flask RESTful API endpoint
+### Accessing the Docker SSH Honeypot
+
+1. Ensure that a SSH RSA key pair exists on your local machine and copy the public key to your clipboard.
+
+```bash
+ls ~/.ssh
+```
+
+You should see `id_rsa.pub` (public key) and `id_rsa` (private key) files listed. Copy the contents of `id_rsa.pub` to your clipboard.
+
+If it does not exist, create a SSH RSA key pair and copy the public key to your clipboard.
+
+```bash
+ssh-keygen -t rsa -b 4096
+```
+
+2. Build the Docker image and run the container.
+
+```bash
+docker-compose up --build
+```
+
+3. In a new terminal tab, get the Docker container's ID.
+
+```bash
+docker ps -a
+```
+
+4. Open up the `authorized_keys` file and paste in your public key using the container ID.
+
+```bash
+docker exec -ti <CONTAINER_ID> vi /root/.ssh/authorized_keys
+```
+
+5. Get the IP of the Docker container using its container ID.
+
+```bash
+docker inspect <CONTAINER_ID> | grep IPAddress
+```
+
+6. SSH into the Docker container using the container's IP.
+
+```bash
+ssh root@<DOCKER_CONTAINER_IP>
+```
+
+You should see appropriate messages that confirm you have successfully performed the SSH remote access.
+
+7. Remove the Docker container after usage.
+
+```bash
+docker-compose down
+```
+
+### Accessing Flask RESTful API endpoint
 
 1. Build the Docker image and run the container.
 

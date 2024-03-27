@@ -1,2 +1,4 @@
 Flask==2.3.*
 Werkzeug==2.3.*
+paramiko>=2.8.0
+requests==2.26.0

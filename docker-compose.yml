@@ -6,4 +6,5 @@ services:
     ports:
       - "5000:5000"
       - "9051:9050"
+      - "2222:22"
     restart: always
