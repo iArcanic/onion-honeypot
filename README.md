@@ -41,9 +41,9 @@ cd onion-honeypot
 ls ~/.ssh
 ```
 
-You should see `id_rsa.pub` (public key) and `id_rsa` (private key) files listed. Copy the contents of `id_rsa.pub` to your clipboard.
+- You should see `id_rsa.pub` (public key) and `id_rsa` (private key) files listed. Copy the contents of `id_rsa.pub` to your clipboard.
 
-If it does not exist, create a SSH RSA key pair and copy the public key to your clipboard.
+- If it does not exist, create a SSH RSA key pair and copy the public key to your clipboard.
 
 ```bash
 ssh-keygen -t rsa -b 4096
@@ -78,8 +78,6 @@ docker inspect <CONTAINER_ID> | grep IPAddress
 ```bash
 ssh root@<DOCKER_CONTAINER_IP>
 ```
-
-You should see appropriate messages that confirm you have successfully performed the SSH remote access.
 
 7. Remove the Docker container after usage.
 

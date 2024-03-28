@@ -42,7 +42,7 @@ PubkeyAuthentication yes
 
 # The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
 # but this is overridden so installations will only check .ssh/authorized_keys
-AuthorizedKeysFile	.ssh/authorized_keys
+AuthorizedKeysFile  .ssh/authorized_keys
 
 #AuthorizedPrincipalsFile none
 
@@ -111,13 +111,14 @@ X11Forwarding no
 Banner /etc/ssh/banner.txt
 
 # override default of no subsystems
-Subsystem	sftp	internal-sftp
+Subsystem   sftp    internal-sftp
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
-#	X11Forwarding no
-#	AllowTcpForwarding no
-#	PermitTTY no
-#	ForceCommand cvs server
+#   X11Forwarding no
+#   AllowTcpForwarding no
+#   PermitTTY no
+#   ForceCommand cvs server
 
 ChallengeResponseAuthentication no
+

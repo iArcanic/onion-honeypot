@@ -1,0 +1,22 @@
+# Lightweight Linux distro as the base image
+FROM alpine:latest
+
+# Install required dependencies
+RUN apk add --no-cache python3 python3-dev py3-pip
+
+# Create virtual Python environment
+RUN python3 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
+# Copy Flask API app
+COPY src/flask_api /app
+
+# Install Python dependencies
+WORKDIR /app
+RUN pip3 install -r requirements.txt
+
+# Expose Flask API port
+EXPOSE 5000
+
+# Start Flask API
+CMD ["python3", "app.py"]
