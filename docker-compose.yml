@@ -1,7 +1,10 @@
 version: '3.8'
-
 services:
+
   tor-server:
     build: tor
     ports:
       - "9050:9050"
+
+  logging-agent:
+    build: logging-agent
