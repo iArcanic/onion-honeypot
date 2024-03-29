@@ -9,7 +9,7 @@ RUN python3 -m venv /venv
 ENV PATH="/venv/bin:$PATH"
 
 # Copy HTTP Honeypot Python files
-COPY src/app.py /app/
+COPY src/ /app/
 COPY requirements.txt /app/
 
 # Set working directory
@@ -17,6 +17,9 @@ WORKDIR /app
 
 # Install Python dependencies
 RUN pip3 install -r requirements.txt
+
+# Expose ports
+EXPOSE 5000
 
 # Start HTTP Honeypot
 CMD ["python3", "app.py"]

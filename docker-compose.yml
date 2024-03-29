@@ -11,5 +11,5 @@ services:
     ports:
       - "5000:5000"
 
-  # http-logging-agent:
-  #   build: http-logging-agent
+  http-logging-agent:
+    build: http-logging-agent

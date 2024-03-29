@@ -2,7 +2,7 @@
 FROM alpine:latest
 
 # Install required dependencies
-RUN apk update && apk add --no-cache tor python3
+RUN apk update && apk add --no-cache tor
 
 # Copy Tor config
 COPY torrc /etc/tor/
@@ -11,4 +11,4 @@ COPY torrc /etc/tor/
 EXPOSE 9050
 
 # Start Tor service with Python HTTP server
-CMD ["sh", "-c", "cd ~/ && python3 -m http.server --bind 127.0.0.1 5000 & tor"]
+CMD ["tor"]
