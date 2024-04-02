@@ -1,0 +1,14 @@
+# Cluster name
+cluster.name: honeypot-cluster
+
+# Node name
+node.name: honeypot-node
+
+# Network settings
+network.host: 0.0.0.0
+
+# Discovery settings
+discovery.type: single-node
+
+# Security settings
+xpack.security.enabled: false
