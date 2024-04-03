@@ -2,6 +2,7 @@ import json
 import requests
 
 from flask import Flask, request, jsonify
+from multiprocessing import Process
 
 # Logstash endpoint details
 LOGSTASH_HOST = "logstash"
@@ -22,7 +23,12 @@ def index():
         'PostForm': request.form,
     }
 
-    send_log_to_logstash(request_data)
+    send_process = Process(
+        target=send_log_to_logstash,
+        args=(request_data,)
+    )
+    send_process.start()
+
     return jsonify(request_data)
 
 

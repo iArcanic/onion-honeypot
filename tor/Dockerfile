@@ -10,5 +10,5 @@ COPY torrc /etc/tor/
 # Expose necessary ports
 EXPOSE 9050
 
-# Start Tor service with Python HTTP server
+# Start Tor service
 CMD ["tor"]
