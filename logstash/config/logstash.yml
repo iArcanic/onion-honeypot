@@ -1,0 +1,5 @@
+# Node name
+node.name: honeypot-logstash
+
+# Network settings
+http.host: 0.0.0.0

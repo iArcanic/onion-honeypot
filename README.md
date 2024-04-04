@@ -1,23 +1,69 @@
 # onion-honeypot
 
 ![Python Version](https://img.shields.io/badge/Python-3.x-blue.svg)
+[![Elastic Stack version](https://img.shields.io/badge/Elastic%20Stack-8.13.0-00bfb3?style=flat&logo=elastic-stack)](https://www.elastic.co/blog/category/releases)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-A low interaction honeypot decoy program to lure potential attackers using Tor Hidden Services (Onions) and deployed via Docker containers.
+A low interaction HTTP honeypot decoy program to lure potential attackers using Tor Hidden Service (Onions) with ELK stack for data logging and visualising.
+
+## Architecture
+
+1. **Host machine**: The underlying hardware (i.e. your machine) that will run the Docker Engine.
+2. **Docker Engine**: The container orchestration platform that manages and runs containers.
+3. **HTTP honeypot**: A Docker container running the honeypot application.
+    - **Flask application**: A lightweight web application within the honeypot container that simulates a vulnerable system and captures the attacker's interactions.
+    - **Send logs**: The honeypot application will then send logs of captured interaction data (i.e. attacker IP, user agent etc.) to Logstash.
+4. **Logstash**: A Docker container that recieves logs from the honeypot, parses or enriches them for further processing, and sends it to Elasticsearch.
+5. **Elasticsearch**: A Docker container that stores the processed logs from Logstash in a searchable format.
+6. **Kibana**: A Docker container that provides the web interface for visualising and analysing logs stored in Elasticsearch.
+
+## Features
+
+- The HTTP honeypot is accessible on Tor (or dark web) as a hidden service, luring attackers.
+- Using Flask for the HTTP honeypot since it is a lightweight application.
+- ELK stack for a versatile and secure way of accessing honeypot data.
+- Powerful logging and data visualising capabilities through Kibana.
+- Fully containerised setup – no external packages or dependencies required.
 
 ## Prerequisites
 
-Before running the application, ensure you have the following prerequisites installed:
+### Docker
 
-1. **Docker**: Ensure Docker is installed on your system. You can download and install Docker from the [official Docker website](https://www.docker.com/get-started/).
+Ensure the Docker engine is installed on your system with version **18.06.0** or higher.
 
-The following dependencies are not required since all dependencies are taken care by the Docker container, but can still be useful for testing and/or debugging:
+You can download and install the Docker engine from the [official Docker website](https://www.docker.com/get-started/).
 
-2. **Python 3**: Install Python 3 on your system. You can download Python from the [official Python website](https://www.python.org/downloads/) or install it using your system's package manager.
+> [!NOTE]
+> - Especially on Linux, make sure your user has the [required permissions](https://docs.docker.com/engine/install/linux-postinstall/) to interact with the Docker daemon.
+> - If you are unable to do this, either append `sudo` in front of each `docker` command or switch to a root user using `sudo -s`.
 
-3. **PIP**: PIP is the package installer for Python. It usually comes installed with Python by default. If not, you can install it using the appropriate package manager for your system.
+### Docker Compose
+
+Ensure that Docker Compose is installed on your system with **version 1.28.0** or higher. 
+
+You can download and install Docker Compose from the [official Docker website](https://docs.docker.com/compose/install/).
+
+### Port availability
+
+The services running on each Docker Container use the following ports. Ensure that these ports are free and are not running any conflicting services or have firewall rules concerning them.
+
+- **Tor**:
+    - 9050 (for SOCKS)
+- **Honeypot**:
+    - 5000 (for Python Flask application)
+- **Elasticsearch**:
+    - 9200 (for HTTP)
+    - 9300 (for TCP transport)
+- **Logstash**:
+    - 5044 (for Beats input) – currently not using Beats at the moment
+    - 5514 (for HTTP input)
+    - 9600 (for API monitoring endpoint)
+- **Kibana**:
+    - 5601 (for web UI console)
 
 ## Usage
+
+### General usage
 
 1. Clone the repository to your local machine.
 
@@ -31,106 +77,43 @@ git clone https://github.com/iArcanic/onion-honeypot
 cd onion-honeypot
 ```
 
-> NOTE: Ensure that you are in the project's root directory before running any of the following usage commands
-
-### Accessing the Docker SSH Honeypot
-
-1. Ensure that a SSH RSA key pair exists on your local machine and copy the public key to your clipboard.
+3. Build and run all Docker containers.
 
 ```bash
-ls ~/.ssh
+docker-compose up
 ```
 
-- You should see `id_rsa.pub` (public key) and `id_rsa` (private key) files listed. Copy the contents of `id_rsa.pub` to your clipboard.
+> [!NOTE]
+> With Docker Compose, you can also optionally use the following:
+> - If you want to build the images each time (or changed a Dockerfile), use `docker-compose --build`.
+> - If you want to run all the services in the background, use `docker-compose -d`
 
-- If it does not exist, create a SSH RSA key pair and copy the public key to your clipboard.
+4. Access the Kibana web UI console at [http://localhost:5601](http://localhost:5601). 
 
-```bash
-ssh-keygen -t rsa -b 4096
-```
+> [!NOTE]
+> - You may need to give some time (a couple of minutes depending upon your network speed and hardware capabilities) for all containers to run and initialise.
+> - If you are running for the first time or using the `--build` flag, expect it to take some time.
 
-2. Build the Docker image and run the container.
+### Accessing and testing the HTTP honeypot
 
-```bash
-docker-compose up --build
-```
+> [!NOTE]
+> - Alternatively, for speed and ease of access, you can open and interact with the HTTP honeypot locally at [http://localhost:5000](http://localhost:5000).
+> - This will produce the same results as accessing the `.onion` site.
 
-3. In a new terminal tab, get the Docker container's ID.
-
-```bash
-docker ps -a
-```
-
-4. Open up the `authorized_keys` file and paste in your public key using the container ID.
-
-```bash
-docker exec -ti <CONTAINER_ID> vi /root/.ssh/authorized_keys
-```
-
-5. Get the IP of the Docker container using its container ID.
-
-```bash
-docker inspect <CONTAINER_ID> | grep IPAddress
-```
-
-6. SSH into the Docker container using the container's IP.
-
-```bash
-ssh root@<DOCKER_CONTAINER_IP>
-```
-
-7. Remove the Docker container after usage.
-
-```bash
-docker-compose down
-```
-
-### Accessing Flask RESTful API endpoint
-
-1. Build the Docker image and run the container.
-
-```bash
-docker-compose up --build
-```
-
-2. Open API endpoint with the URL.
-
-```bash
-http://localhost:5000
-```
-
-> NOTE: Alternatively, you can also use `curl` or `wget` instead
-
-3. Remove the Docker container after usage.
-
-```bash
-docker-compose down
-```
-
-### Accessing the `.onion` site
-
-1. Build the Docker image and run the container.
-
-```bash
-docker-compose up --build
-```
-
-2. Open a new terminal tab and get the container's ID.
+1. List all available containers and find the ID of the Tor container.
 
 ```bash
 docker ps -a
 ```
 
-3. Display the contents of the `hostname` file to get the `.onion` URL string using the container ID.
+2. Using that, display the contents of the `hostname` file.
 
 ```bash
 docker exec -ti <CONTAINER_ID> cat /var/lib/tor/hidden_service/hostname
 ```
 
-4. Run the `.onion` site in a Tor-enabled application.
+You should see a long string ending with `.onion`. This is the Tor hidden service.
 
-5. Remove the Docker container after usage.
+3. Open that `.onion` in a Tor-enabled application, such as the Tor browser.
 
-```bash
-docker-compose down
-```
+4. Interact with the HTTP honeypot and see logged activities at the Kibana console ([http://localhost:5601](http://localhost:5601)).

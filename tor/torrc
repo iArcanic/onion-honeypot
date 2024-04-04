@@ -69,7 +69,7 @@
 ## address y:z.
 
 HiddenServiceDir /var/lib/tor/hidden_service/
-HiddenServicePort 2222 127.0.0.1:2222
+HiddenServicePort 80 http-honeypot:5000
 
 #HiddenServiceDir /var/lib/tor/other_hidden_service/
 #HiddenServicePort 80 127.0.0.1:80

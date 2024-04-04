@@ -2,13 +2,13 @@
 FROM alpine:latest
 
 # Install required dependencies
-RUN apk add --no-cache tor
+RUN apk update && apk add --no-cache tor
 
 # Copy Tor config
-COPY config/torrc /etc/tor/
+COPY torrc /etc/tor/
 
 # Expose necessary ports
-EXPOSE 9050 2222
+EXPOSE 9050
 
 # Start Tor service
 CMD ["tor"]

@@ -1,34 +1,35 @@
-version: '3'
+version: "3.8"
 
 services:
-  tor-server:
-    build:
-      context: .
-      dockerfile: Dockerfile_tor_server
+  tor:
+    build: tor
     ports:
-      - "9051:9050"
+      - "9050:9050"
     restart: always
 
-  ssh-honeypot:
-    build:
-      context: .
-      dockerfile: Dockerfile_ssh_honeypot
-    ports:
-      - "2223:2222"
-    restart: always
-
-  logging-agent:
-    build:
-      context: .
-      dockerfile: Dockerfile_logging_agent
-    ports:
-      - "2222:2222"
-    restart: always
-
-  flask-api:
-    build:
-      context: .
-      dockerfile: Dockerfile_flask_api
+  http-honeypot:
+    build: http-honeypot
     ports:
       - "5000:5000"
+    restart: always
+
+  elasticsearch:
+    build: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: always
+
+  logstash:
+    build: logstash
+    ports:
+      - "5044:5044"
+      - "5514:5514"
+      - "9600:9600"
+    restart: always
+
+  kibana:
+    build: kibana
+    ports:
+      - "5601:5601"
     restart: always
