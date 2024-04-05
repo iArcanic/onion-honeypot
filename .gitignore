@@ -6,6 +6,4 @@ venv/
 
 # Docker
 .DS_Store
-.dockerignore
 .docker/
-.dockerignore
