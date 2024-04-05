@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Directory Listing</title>
-</head>
-<body>
-	{% if current_user.is_authenticated %}
-    		<h1>Directory Listing</h1>
-    		<h2>Files:</h2>
-    		<ul>
-        		{% for file in directory.files %}
-        			<li>{{ file }}</li>
-        		{% endfor %}
-    		</ul>
-    		<h2>Folders:</h2>
-    		<ul>
-        		{% for folder in directory.folders %}
-        			<li>{{ folder }}</li>
-        		{% endfor %}
-    		</ul>
-	{% else %}
-    		<p>You are not authorized to access this page. Please <a href="{{ url_for('login') }}">login</a> first.</p>
-  	{% endif %}
-</body>
+    <head>
+        <title>Directory Listing</title>
+    </head>
+    <body>
+        {% if current_user.is_authenticated %}
+        <h1>Directory Listing</h1>
+        <h2>Files:</h2>
+        <ul>
+            {% for file in directory.files %}
+            <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+        <h2>Folders:</h2>
+        <ul>
+            {% for folder in directory.folders %}
+            <li>{{ folder }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>You are not authorized to access this page. Please <a href="{{ url_for('login') }}">login</a> first.</p>
+        {% endif %}
+    </body>
 </html>
