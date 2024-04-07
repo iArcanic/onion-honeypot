@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Directory Listing for /{{ username }}{% if folder %}/{{ folder }}{% endif %}</title>
+    <title>Directory listing for /{{ username }}{% if folder %}/{{ folder }}{% endif %}</title>
 </head>
 <body>
-    <h1>Directory Listing for /{{ username }}{% if folder %}/{{ folder }}{% endif %}</h1>
+    <h1>Directory listing for /{{ username }}{% if folder %}/{{ folder }}{% endif %}</h1>
     <hr >
     <ul>
         {% for entry in entries %}
-            <li><a href="{{ url_for('directory_listing.folder_listing', username=username, folder=entry) }}">{{ entry }}</a></li>
+            {% if folder %}
+                <li><a href="{{ url_for('directory_listing.serve_file', username=username, reqPath=(folder + '/' + entry) if folder else entry) }}">{{ entry }}</a></li>
+            {% else %}
+                <li><a href="{{ url_for('directory_listing.serve_file', username=username, reqPath=entry) }}">{{ entry }}</a></li>
+            {% endif %}
         {% endfor %}
     </ul>
     <hr >
