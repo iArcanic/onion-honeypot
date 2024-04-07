@@ -6,13 +6,14 @@
 <body>
     <h1>Directory listing for /{{ username }}{% if folder %}/{{ folder }}{% endif %}</h1>
     <hr >
+    {% if folder %}
+        <ul>
+            <li><a href="{{ url_for('directory_listing.serve_file', username=username, requested_path=parent_directory) }}">Parent Directory</a></li>
+        </ul>
+    {% endif %}
     <ul>
         {% for entry in entries %}
-            {% if folder %}
-                <li><a href="{{ url_for('directory_listing.serve_file', username=username, requested_path=(folder + '/' + entry) if folder else entry) }}">{{ entry }}</a></li>
-            {% else %}
-                <li><a href="{{ url_for('directory_listing.serve_file', username=username, requested_path=entry) }}">{{ entry }}</a></li>
-            {% endif %}
+            <li><a href="{{ url_for('directory_listing.serve_file', username=username, requested_path=(folder + '/' + entry) if folder else entry) }}">{{ entry }}</a></li>
         {% endfor %}
     </ul>
     <hr >

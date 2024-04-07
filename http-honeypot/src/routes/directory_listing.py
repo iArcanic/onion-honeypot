@@ -1,6 +1,6 @@
 import os
 
-from flask import Blueprint, render_template, send_file
+from flask import Blueprint, render_template, send_file, redirect, url_for
 from flask_login import login_required, current_user
 
 
@@ -18,6 +18,12 @@ def directory_listing(username):
         return 'You are not authorized to access this directory.', 403
 
 
+@directory_listing_blueprint.route('/<username>/', methods=['GET'])
+@login_required
+def redirect_to_root(username):
+    return redirect(url_for('directory_listing.directory_listing', username=username))
+
+
 @directory_listing_blueprint.route('/<username>/<path:requested_path>', methods=['GET'])
 @login_required
 def serve_file(username, requested_path):
@@ -28,7 +34,8 @@ def serve_file(username, requested_path):
         # If it's a directory, list its contents
         if os.path.isdir(absolute_path):
             entries = os.listdir(absolute_path)
-            return render_template('directory_listing.html', username=username, folder=requested_path, entries=entries)
+            parent_directory = os.path.dirname(requested_path) if requested_path != '/' else None
+            return render_template('directory_listing.html', username=username, folder=requested_path, entries=entries, parent_directory=parent_directory)
         # If it's a file, serve it for download
         elif os.path.isfile(absolute_path):
             return send_file(absolute_path, as_attachment=True)
