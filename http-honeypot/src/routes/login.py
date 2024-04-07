@@ -22,11 +22,10 @@ def login():
         if username in user_credentials and user_credentials[username] == password:
             user = User(username, password)
             login_user(user)
-            return redirect(url_for('directory_listing.directory_listing'))
+            return redirect(url_for('directory_listing.directory_listing', username=user.username))
         else:
             # Authentication failed, render login page with error message
             return render_template('login.html', error='Invalid username or password')
     
     # Render page for GET requests
     return render_template('login.html')
-
