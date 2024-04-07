@@ -9,9 +9,9 @@
     <ul>
         {% for entry in entries %}
             {% if folder %}
-                <li><a href="{{ url_for('directory_listing.serve_file', username=username, reqPath=(folder + '/' + entry) if folder else entry) }}">{{ entry }}</a></li>
+                <li><a href="{{ url_for('directory_listing.serve_file', username=username, requested_path=(folder + '/' + entry) if folder else entry) }}">{{ entry }}</a></li>
             {% else %}
-                <li><a href="{{ url_for('directory_listing.serve_file', username=username, reqPath=entry) }}">{{ entry }}</a></li>
+                <li><a href="{{ url_for('directory_listing.serve_file', username=username, requested_path=entry) }}">{{ entry }}</a></li>
             {% endif %}
         {% endfor %}
     </ul>
