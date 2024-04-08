@@ -13,6 +13,18 @@ services:
       - "5000:5000"
     restart: always
 
+  ftp-honeypot:
+    build: ftp-honeypot
+    ports:
+      - "21:21"
+    restart: always
+
+  telnet-honeypot:
+    build: telnet-honeypot
+    ports:
+      - "23:23"
+    restart: always
+
   elasticsearch:
     build: elasticsearch
     ports:

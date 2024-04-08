@@ -7,3 +7,6 @@ venv/
 # Docker
 .DS_Store
 .docker/
+
+# IntelliJ
+.idea/
