@@ -13,8 +13,8 @@ def start_ftp_server():
     authorizer = DummyAuthorizer()
 
     for username, password in user_credentials.items():
-        absolute_path = os.path.abspath(f'data/{username}')
-        authorizer.add_user(username, password, absolute_path, perm="elradfmw")
+        user_path = os.path.abspath(f'data/{username}')
+        authorizer.add_user(username, password, user_path, perm="elradfmw")
 
     handler = FTPHandler
     handler.authorizer = authorizer

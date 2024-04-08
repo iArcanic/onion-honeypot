@@ -12,12 +12,16 @@ services:
     ports:
       - "5000:5000"
     restart: always
+    volumes:
+      - ./mock-data:/app/data
 
   ftp-honeypot:
     build: ftp-honeypot
     ports:
       - "21:21"
     restart: always
+    volumes:
+      - ./mock-data:/app/data
 
   telnet-honeypot:
     build: telnet-honeypot
