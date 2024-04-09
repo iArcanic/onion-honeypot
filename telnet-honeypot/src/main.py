@@ -1,15 +1,9 @@
 import socket
 import threading
 import json
-import re
 
 from config import TELNET_HOST, TELNET_PORT
-
-
-# Load user credentials from JSON file
-def load_credentials(filename):
-    with open(filename, 'r') as file:
-        return json.load(file)
+from auth import authenticate_user
 
 
 # Function to handle client connections
@@ -20,7 +14,7 @@ def handle_client(client_socket, client_address):
     client_socket.recv(1024)
 
     # Send a login prompt to the client
-    client_socket.send(b"Username: ")
+    client_socket.send(b"ApacheServer login: ")
 
     # Receive username from the client
     username = b""
@@ -43,7 +37,9 @@ def handle_client(client_socket, client_address):
 
     # Authenticate the user
     if authenticate_user(username, password):
-        client_socket.send(b"Authentication successful. Welcome!\n")
+        client_socket.send(b"--------------------------------\n")
+        client_socket.send(b"Welcome to Apache Linux 2.4.43!\n")
+        client_socket.send(b"Type 'help' for a list of commands.\n")
 
         # Receive and echo data back to the client
         while True:
@@ -57,24 +53,6 @@ def handle_client(client_socket, client_address):
 
     print(f"Connection from {client_address} closed.")
     client_socket.close()
-
-
-# Authenticate user credentials
-def authenticate_user(username, password):
-    credentials = load_credentials("data/user_credentials.json")
-
-    # Decode the username
-    username = username.strip().decode('latin-1')
-    print(f"Username: {username}")
-
-    # Decode the password
-    password = password.strip().decode('latin-1')
-    print(f"Password: {password}")
-
-    if username in credentials and credentials[username] == password:
-        return True
-
-    return False
 
 
 # Main function to run the server
