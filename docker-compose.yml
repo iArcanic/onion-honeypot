@@ -28,6 +28,8 @@ services:
     ports:
       - "23:23"
     restart: always
+    volumes:
+      - ./mock-data:/app/data
 
   elasticsearch:
     build: elasticsearch
