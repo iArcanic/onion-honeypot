@@ -4,6 +4,7 @@ import json
 
 from config import TELNET_HOST, TELNET_PORT
 from auth import authenticate_user
+from command_handler import *
 
 
 # Function to handle client connections
@@ -14,7 +15,7 @@ def handle_client(client_socket, client_address):
     client_socket.recv(1024)
 
     # Send a login prompt to the client
-    client_socket.send(b"ApacheServer login: ")
+    client_socket.send(b"\nApacheServer login: ")
 
     # Receive username from the client
     username = b""
@@ -23,6 +24,9 @@ def handle_client(client_socket, client_address):
         if chunk == b"\n":
             break
         username += chunk
+
+    # Decode the username
+    username = username.strip().decode('latin-1')
 
     # Send a password prompt to the client
     client_socket.send(b"Password: ")
@@ -35,19 +39,42 @@ def handle_client(client_socket, client_address):
             break
         password += chunk
 
+    # Decode the password
+    password = password.strip().decode('latin-1')
+
     # Authenticate the user
     if authenticate_user(username, password):
-        client_socket.send(b"--------------------------------\n")
+        client_socket.send(b"\n--------------------------------\n")
         client_socket.send(b"Welcome to Apache Linux 2.4.43!\n")
-        client_socket.send(b"Type 'help' for a list of commands.\n")
+        client_socket.send(b"Type 'help' for a list of commands.\n\n")
 
-        # Receive and echo data back to the client
         while True:
-            data = client_socket.recv(1024)
-            if not data:
+            # Mock command prompt
+            client_socket.send(bytes(username.encode()) + b"@ApacheServer:~$ ")
+
+            # Receive command from the client
+            command = b""
+            while True:
+                chunk = client_socket.recv(1)
+                if chunk == b"\n":
+                    break
+                command += chunk
+
+            # Decode the command
+            command = command.strip().decode('latin-1')
+
+            if command == "pwd":
+                response = handle_pwd()
+                client_socket.send(response.encode('latin-1'))
+            elif command.startswith("echo"):
+                message = command.split(" ", 1)[1]
+                response = handle_echo(message)
+                client_socket.send(response.encode('latin-1'))
+            elif command in ["quit", b"exit"]:
                 break
-            print(f"Received data from {client_address}: {data.decode('latin-1')}")
-            client_socket.send(data)
+            else:
+                client_socket.send(b"Command not found: " + command + b"\n")
+
     else:
         client_socket.send(b"Authentication failed. Goodbye.\n")
 
