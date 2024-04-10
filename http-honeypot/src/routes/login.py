@@ -22,6 +22,7 @@ def login():
 
         # Send attempted credentials to Logstash
         login_log_data = {
+            'honeypot': 'HTTP',
             'username': username,
             'password': password,
             'action': 'LOGIN',

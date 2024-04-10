@@ -22,4 +22,3 @@ class User(UserMixin):
             return cls(user_id, user_credentials[user_id])
         else:
             return None
-

@@ -1,2 +1,1 @@
-from .log_handler import send_log_to_logstash
-
+from .log_handler import log_auth

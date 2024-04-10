@@ -10,6 +10,7 @@ logout_blueprint = Blueprint('logout', __name__)
 def logout():
     # Send logout data to Logstash
     logout_log_data = {
+        'honeypot': 'HTTP',
         'username': current_user.get_id(),
         'action': 'LOGOUT',
         'RemoteAddr': request.remote_addr,

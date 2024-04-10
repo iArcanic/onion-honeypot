@@ -16,7 +16,7 @@ COPY requirements.txt /app/
 WORKDIR /app
 
 # Install Python dependencies
-# RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # Expose ports
 EXPOSE 23

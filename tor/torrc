@@ -68,12 +68,14 @@
 ## HiddenServicePort x y:z says to redirect requests on port x to the
 ## address y:z.
 
-HiddenServiceDir /var/lib/tor/hidden_service/
+HiddenServiceDir /var/lib/tor/http_honeypot_hidden_service/
 HiddenServicePort 80 http-honeypot:5000
 
-#HiddenServiceDir /var/lib/tor/other_hidden_service/
-#HiddenServicePort 80 127.0.0.1:80
-#HiddenServicePort 22 127.0.0.1:22
+HiddenServiceDir /var/lib/tor/ftp_honeypot_hidden_service/
+HiddenServicePort 23 telnet-honeypot:23
+
+HiddenServiceDir /var/lib/tor/telnet_honeypot_hidden_service/
+HiddenServicePort 21 ftp-honeypot:21
 
 ################ This section is just for relays #####################
 #

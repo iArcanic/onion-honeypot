@@ -17,6 +17,7 @@ def directory_listing(username):
 
         # Send directory listing request to Logstash
         directory_listing_log_data = {
+            'honeypot': 'HTTP',
             'username': username,
             'action': 'DIRECTORY_LISTING',
             'RemoteAddr': request.remote_addr,
@@ -50,6 +51,7 @@ def serve_file(username, requested_path):
 
             # Send directory listing request to Logstash
             directory_listing_log_data = {
+                'honeypot': 'HTTP',
                 'username': username,
                 'action': 'DIRECTORY_LISTING',
                 'requested_path': requested_path,
@@ -64,6 +66,7 @@ def serve_file(username, requested_path):
         elif os.path.isfile(absolute_path):
             # Send file download request to Logstash
             file_download_log_data = {
+                'honeypot': 'HTTP',
                 'username': username,
                 'action': 'FILE_DOWNLOAD',
                 'requested_path': requested_path,

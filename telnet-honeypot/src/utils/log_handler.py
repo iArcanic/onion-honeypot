@@ -1,5 +1,4 @@
 import threading
-import json
 import requests
 
 from multiprocessing import Process

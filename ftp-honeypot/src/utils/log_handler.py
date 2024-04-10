@@ -18,3 +18,13 @@ def send_log_to_logstash(data):
     send_process = Process(target=send_logs)
     send_process.start()
 
+
+def log_auth(handler, username, password):
+    login_log_data = {
+        'honeypot': 'FTP',
+        'username': username,
+        'password': password,
+        'client_address': handler.remote_ip,
+        'action': 'LOGIN'
+    }
+    send_log_to_logstash(login_log_data)
