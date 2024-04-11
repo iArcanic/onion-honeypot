@@ -21,7 +21,7 @@ A series of low interaction honeypot decoy programs (HTTP, FTP, and Telnet) to l
             - [4.2.1.1 HTTP honeypot](#4211-http-honeypot)
             - [4.2.1.2 FTP honeypot](#4212-ftp-honeypot)
             - [4.2.1.3 Telnet honeypot](#4213-telnet-honeypot)
-        - 4.2.2 Via `.onion` hidden service sites
+        - [4.2.2 Via `.onion` hidden service sites](#422-via-onion-hidden-service-sites)
             - [4.2.2.1 HTTP honeypot](#4221-http-honeypot)
             - [4.2.2.2 FTP honeypot](#4222-ftp-honeypot)
             - [4.2.2.3 Telnet honeypot](#4223-telnet-honeypot)
