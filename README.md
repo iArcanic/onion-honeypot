@@ -180,7 +180,7 @@ Attackers may have several specialised methods and tactics to scan the Tor netwo
 > [!WARNING]
 > - To interact and test with a specific honeypot, ensure that the respective Docker container is up and running on your local machine.
 > - Verify this by running `docker ps -a` and identify the name of the honeypot (starts with the prefix `onion-honeypot-...`) and its status.
-> - Alternatively, you could use the Docker Desktop application to see the status of the Docker container quicker:
+> - Alternatively, you could use the Docker Desktop application:
 > ![](docs/README-images/docker-desktop/docker-desktop-container-status.png)
 
 ([back to top](#contents))
