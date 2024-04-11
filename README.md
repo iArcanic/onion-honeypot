@@ -15,8 +15,8 @@ A series of low interaction honeypot decoy programs (HTTP, FTP, and Telnet) to l
     - [3.2 Docker Compose](#32-docker-compose)
     - [3.3 Port availability](#33-port-availability)
 - [4 Usage](#4-usage)
-    - [4.1 General usage](#4.1-general-usage)
-    - 4.2 Accessing, interacting, and testing the honeypots
+    - [4.1 General usage](#41-general-usage)
+    - [4.2 Accessing, interacting, and testing the honeypots](#42-accessing-interacting-and-testing-the-honeypots)
         - [4.2.1 Via the local host machine](#421-via-the-local-host-machine)
             - [4.2.1.1 HTTP honeypot](#4211-http-honeypot)
             - [4.2.1.2 FTP honeypot](#4212-ftp-honeypot)
@@ -25,7 +25,7 @@ A series of low interaction honeypot decoy programs (HTTP, FTP, and Telnet) to l
             - [4.2.2.1 HTTP honeypot](#4221-http-honeypot)
             - [4.2.2.2 FTP honeypot](#4222-ftp-honeypot)
             - [4.2.2.3 Telnet honeypot](#4223-telnet-honeypot)
-- 5 TO-DOs
+- [5 TO-DOs](#5-to-dos)
 - [6 Contributing](#6-contributing)
 - [7 License](#7-license)
 - [8 Acknowledgments](#8-acknowledgments)
@@ -53,7 +53,8 @@ A series of low interaction honeypot decoy programs (HTTP, FTP, and Telnet) to l
 - Secure and easily managable, since each service is isolated in its own Docker container
 
 > [!WARNING]
-> Currently, any security features of the ELK stack are temporarily disabled to facilitate the development of the ELK stack. These will be re-enabled in the future.
+> - Currently, any security features of the ELK stack are temporarily disabled to facilitate the development of the ELK stack.
+> - These will be re-enabled in the future.
 
 ([back to top](#contents))
 
@@ -164,7 +165,7 @@ Use the left hand pane to filter the data based on the selected fields. Here for
 ![](docs/README-images/kibana/kibana-data-console-field-filter.png)
 
 > [!WARNING]
-> After running the honeypots for a long period of time and you don't see any data on the Kibana console at all, expand the time range.
+> If you don't see any data on the Kibana console at all, expand the time range.
 > ![](docs/README-images/kibana/kibana-console-expand-time-range.png)
 
 > [!NOTE]
@@ -177,9 +178,9 @@ Use the left hand pane to filter the data based on the selected fields. Here for
 Attackers may have several specialised methods and tactics to scan the Tor network for hidden services that host specific protocols. It is important for you to test them so that you have confidence in the functionality of the honeypots, their effectiveness, any false positive scenarios, and whether they may comprise your existing network infrastructure.
 
 > [!WARNING]
-> To interact and test with a specific honeypot, ensure that the respective Docker container is up and running on your local machine.
-> Verify this by running `docker ps -a` and identify the name of the honeypot (starts with the prefix `onion-honeypot-...`) and its status.
-> Alternatively, you could use the Docker Desktop application to see the status of the Docker container quicker:
+> - To interact and test with a specific honeypot, ensure that the respective Docker container is up and running on your local machine.
+> - Verify this by running `docker ps -a` and identify the name of the honeypot (starts with the prefix `onion-honeypot-...`) and its status.
+> - Alternatively, you could use the Docker Desktop application to see the status of the Docker container quicker:
 > ![](docs/README-images/docker-desktop/docker-desktop-container-status.png)
 
 ([back to top](#contents))
@@ -221,6 +222,7 @@ Upon successful login, you will be redirected to a page like so:
 > <input type="text" id="username" name="username" value="admin" required>
 > <input type="password" id="password" name="password" value="password123" required>
 > ```
+> This way, each time you load the login page, you do not have to manually type in valid credentials.
 
 4. Interact with the honeypot.
 
@@ -268,8 +270,8 @@ macOS:
 ```
 
 > [!NOTE]
-> Visit Homebrew's official website [here](https://brew.sh) for more information.
-> You will require administrative priviledges during the installation process.
+> - Visit Homebrew's official website [here](https://brew.sh) for more information.
+> - You will require administrative priviledges during the installation process.
 
 - Install the `inetutils` package.
 
@@ -594,7 +596,8 @@ You can install the latest version of the Tor Browser from their official websit
 2. Open that `.onion` site in the Tor Browser.
 
 > [!NOTE]
-> Do not be alarmed if loading pages on the HTTP honeypot is slow! This is to be expected, since Tor needs to route the HTML content across multiple routers and relays before reaching your device.
+> - Do not be alarmed if loading pages on the HTTP honeypot is slow!
+> - This is to be expected, since Tor needs to route the HTML content across multiple routers and relays before reaching your device.
 
 From here, refer to steps 3-6 of [4.2.1.1 HTTP honeypot](#4211-http-honeypot).
 
@@ -615,8 +618,8 @@ macOS:
 ```
 
 > [!NOTE]
-> Visit Homebrew's official website [here](https://brew.sh) for more information.
-> You will require administrative priviledges during the installation process.
+> - Visit Homebrew's official website [here](https://brew.sh) for more information.
+> - You will require administrative priviledges during the installation process.
 
 - Install the `tor` package.
 
@@ -739,14 +742,18 @@ Create a new site using `New site` and name it "FTP Onion Honeypot".
 ![](docs/README-images/ftp-honeypot/filezilla/filezilla-site-manager-new-site.png)
 
 For the `Protocol` dropdown, leave it default at `FTP – File Transfer Protocol`.
+
 For the `Host` field, paste in the full `.onion` site.
+
 For the `Port` field, leave it empty since the FTP honeypot uses the default FTP port of 21.
+
 For the `Encryption` field, leave it default at `Use explicit FTP over TLS if available`.
 
 ![](docs/README-images/ftp-honeypot/filezilla/filezilla-site-settings.png)
 
 From the `Logon type` dropdown menu, select `Normal`.
-Enter in a valid username and password.
+
+Then enter in a valid username and password.
 
 > [!NOTE]
 > For valid credentials, please see [`mock-data/user_credentials.json`](https://github.com/iArcanic/onion-honeypot/blob/main/mock-data/user_credentials.json).
@@ -762,9 +769,9 @@ From here, refer to steps 2-5 of [4.2.1.2 FTP honeypot](#4212-ftp-honeypot).
 ##### 4.2.2.3 Telnet honeypot
 
 > [!NOTE]
-> Have not yet found a way to access the Telnet honeypot via the `.onion` site.
-> Currently experimenting with `proxychains` Linux package to force `telnet` command to forward traffic through the runnung Tor daemon.
-> Since `proxychains` is a Linux only package, could potentially use an Ubuntu based Docker to test this.
+> - Have not yet found a way to access the Telnet honeypot via the `.onion` site.
+> - Currently experimenting with `proxychains` Linux package to force `telnet` command to forward traffic through the runnung Tor daemon.
+> - Since `proxychains` is a Linux only package, could potentially use an Ubuntu based Docker to test this.
 
 ## 5 TO-DOs
 
@@ -784,7 +791,7 @@ From here, refer to steps 2-5 of [4.2.1.2 FTP honeypot](#4212-ftp-honeypot).
 
 Any contributions you make to this project are greatly appreciated.
 
-If you have a suggestion that would make this better or decide to implement a feature from the TO-DOs (see 5 TO-DOs), please fork the repo and create a pull request.
+If you have a suggestion that would make this better or decide to implement a feature from the TO-DOs (see [5 TO-DOs](#5-to-dos)), please fork the repo and create a pull request.
 
 1. Fork the project into a repository under your GitHub account.
 
@@ -812,13 +819,13 @@ Your branch name should be listed below the active one (which is `main`).
 
 6. Open and document a detailed pull request at `https://github.com/<YOUR_GIT_USERNAME>/<YOUR_FORKED_ONION_HONEYPOT_REPO_NAME>/pulls`.
 
-Ensure that you go into detail the functionality of the feature, provide proof that it works as claimed, and check it off the TO-DOs list section (see 5 TO-DOs) of the README.
+Ensure that you go into detail the functionality of the feature, provide proof that it works as claimed, and check it off the TO-DOs list section (see [5 TO-DOs](#5-to-dos)) of the README.
 
 ([back to top](#contents))
 
 ## 7 License
 
-Distributed under the MIT License. See the [`LICENSE`](https://github.com/iArcanic/onion-honeypot/blob/main/LICENSE) file for more details.
+Distributed under the MIT License. See the [`LICENSE`](https://github.com/iArcanic/onion-honeypot/blob/main/LICENSE) file or select the "MIT License" tab next to the "README" tab for more details.
 
 ([back to top](#contents))
 
@@ -833,7 +840,7 @@ Distributed under the MIT License. See the [`LICENSE`](https://github.com/iArcan
 - [Official Elasticsearch GitHub repository](https://github.com/elastic/elasticsearch)
 - [Official Logstash documentation](https://www.elastic.co/guide/en/logstash/current/index.html)
 - [Official Logstash GitHub repository](https://github.com/elastic/logstash)
-- [Official Kibana documentation](https://www.elastic.co/guide/en/kibana/8.13/index.html
+- [Official Kibana documentation](https://www.elastic.co/guide/en/kibana/8.13/index)
 - [Official Kibana GitHub repository](https://github.com/elastic/kibana)
 
 ([back to top](#contents))
