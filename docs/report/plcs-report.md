@@ -32,6 +32,30 @@ In essence, this project serves as a powerful cyber tool that can be used by sec
 
 <!-- 575 words -->
 
+When planning and even throughout the development process for the honeypot applications, several key decisions for the technologies and paradigms were undertaken to ensure that the tools were both effective and secure. This section will therefore explain the rationale and reasoning behind the design decisions.
+
+## 2.1 Programming language
+
+<!-- 115 words -->
+
+The decision to choose Python to develop the honeypot applications was influenced by multiple key factors. Firstly, Python is a popular language due to its ease of development when it comes to its syntax, including its simplicity and readability. The Python community consists of many experienced developers, meaning there is a huge variety of external libraries that can easily be installed. Some of these libraries formed the basis for networking protocols, such as `pyftpdlib` for FTP, and Flask for HTTP. Python itself also comes with many useful pre-built modules (such as `socket` for Telnet), which enabled the focus to be on developing the core functionality. Furthermore, Python has cross-platform compatibility, allowing it to be portable between Windows, Linux, and macOS.
+
+## 2.2 Modular design and Object Oriented Programming (OOP)
+
+<!-- 115 words -->
+
+## 2.3 Containerisation with Docker
+
+<!-- 115 words -->
+
+## 2.4 ELK stack integration
+
+<!-- 115 words -->
+
+## 2.5 Tor hidden service integration
+
+<!-- 115 words -->
+
 # 3 Cyber security considerations
 
 <!-- 575 words -->
