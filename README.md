@@ -34,6 +34,7 @@ A series of low interaction honeypot decoy programs (HTTP, FTP, and Telnet) to l
 
 1. **Host machine**: The underlying hardware (i.e. your machine) that will run the Docker Engine.
 2. **Docker Engine**: The container orchestration platform that manages and runs containers.
+3. **Tor**: A Docker container running the Tor daemon that will forward traffic to the relevant honeypot application.
 3. **HTTP honeypot**: A Docker container running the HTTP honeypot application.
 4. **FTP honeypot**: A Docker container running the FTP honeypot application.
 5. **Telnet honeypot**: A Docker container running the Telnet honeypot application.
