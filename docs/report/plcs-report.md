@@ -42,7 +42,7 @@ The decision to choose Python to develop the honeypot applications was influence
 
 <!-- 115 words -->
 
-A modular and object-oriented approach 
+A modular and object-oriented approach was chosen to create a codebase that is easily scalable, reusable, and maintainable to facilitate enhancements or modifications. By breaking down the honeypot logic into distinct components, where each component concerns a specific functionality, it makes it easier for developers to test and debug the individual parts of the code. The object-oriented paradigm was taken advantage of to further allow for modularity and reusability, with the advantage of classes encapsulating all similar data and functionality. This further promoted code maintainability, readability, and extensibility, allowing for new features to be implemented without disrupting the original code functionality.
 
 ## 2.3 Containerisation with Docker
 
