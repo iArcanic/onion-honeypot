@@ -36,7 +36,7 @@ This section will explain the rationale and reasoning behind two distinct design
 ## 2.1 Programming language and paradigm
 
 <!-- 287 words maximum -->
-<!-- Currently  words -->
+<!-- Currently 281 words -->
 
 The decision to choose Python to develop the honeypot applications was influenced by multiple key factors. Firstly, Python is a popular language due to its ease of development when it comes to its intuitive syntax simplicity, and readability. The Python ecosystem provides access to a huge variety of external libraries that can easily be installed. Some of these libraries formed the basis for networking protocols, for example, the `pyftpdlib` for FTP, and Flask for HTTP. Python itself also comes with many useful pre-built modules (such as `socket` for Telnet), which enabled the focus to be solely on developing the core functionality. Beyond the inherent developer friendliness and versatility, Python has cross-platform compatibility, allowing it to be portable between Windows, Linux, and macOS. Being portable is a major benefit, as it allows for the honeypot solution to be easily replicable and accessible.
 
@@ -47,7 +47,7 @@ In essence, the powerful combination of Python being developer-centric, cross-pl
 ## 2.2 Containerisation and deployment
 
 <!-- 288 words maximum -->
-<!-- Currently 110 words -->
+<!-- Currently 284 words -->
 
 The decision to use Docker containers was mainly driven by the need for cross-platform compatibility, service isolation, management, and scalability of the honeypot applications. Packaging each service – the honeypot applications, Tor, and components of the ELK stack – with the relevant dependencies it requires, consistent yet reproducible deployments in different deployment environments. The concept of containerisation allows for each service to be individually managed, meaning that resources can be efficiently allocated as needed. More importantly, the isolation provided by Docker containers helps to maintain the overall security of the system, since every component is confined to its execution environment.
 
@@ -62,9 +62,13 @@ In terms of security, each Docker container is isolated, so the attack surface i
 ## 3.1 Integrating Tor hidden services
 
 <!-- 287 words maximum -->
-<!-- Currently 126 words -->
+<!-- Currently 288 words -->
 
-Including Tor hidden services was a vital design decision, as it not only provides anonymity for the honeypot applications but also helps to lure potential attackers. The accessibility of the honeypot applications, via Tor's `.onion` domains served as a major feature for this project, helping to further increase the availability of these decoy services to malicious entities scanning the Tor network. However, this presented its own set of unique challenges. Although Tor offered several advantages, it was difficult to optimise the speed at which these honeypot applications could be served to the attacker. Ultimately, it provides an additional layer of security making it more taxing for attackers to trace back to the true origins of the vulnerable services, reducing the risk of system compromise for end-users.
+Including Tor hidden services was a vital design decision, as it not only provides a degree of anonymity for the honeypot applications but also helps to lure potential attackers. The accessibility of the honeypot applications, via Tor's `.onion` domains served as a major feature for this project, helping to further increase the availability of these decoy services to malicious entities scanning the Tor network.
+
+However, this presented its own set of unique challenges. Although Tor offered several advantages, it was difficult to optimise the speed at which these honeypot applications could be served to the attacker. Additional latency would inherently be invoked since all traffic must be routed through multiple relays before reaching the end-user's device. A slower response time like so could potentially reduce the honeypot's effectiveness and put off impatient attackers. Despite this, it provides an additional layer of security making it more taxing for attackers to trace back to the true origins of the vulnerable services, reducing the risk of system compromise for end-users through masking identities (location, IP address, device information, etc.) through the different relay routers. For honeypot applications, since they are vulnerable, they must be secured without exposing the inner workings of the production system, so the benefits provided by Tor in this case outweigh the performance issues it poses.
+
+Moreover, the use of Tor hidden services also aligns with ethical and legal issues that naturally arise when distributing vulnerable systems. Since the user is under a certain level of risk when using this architecture, through the Tor network, the risk of inadvertently exposing and impacting users as a result of it is greatly reduced. This in turn promotes values of responsibility and integrity when interacting with or developing the honeypot applications.
 
 ## 3.2 Integrating the ELK stack
 
