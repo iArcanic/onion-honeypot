@@ -1,6 +1,6 @@
 ---
 title: "PLCS-CW2 Report"
-author: "Preetham Ananthkumar 2242090"
+author: "2242090"
 bibliography: docs/report/references.bib
 toc: true
 toc-title: Table of Contents
