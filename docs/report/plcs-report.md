@@ -48,6 +48,8 @@ A modular and object-oriented approach was chosen to create a codebase that is e
 
 <!-- 115 words -->
 
+The decision to use Docker containers was mainly driven by the need for cross-platform compatibility, service isolation, management, and scalability of the honeypot applications. Packaging each service with the relevant dependencies it requires, including each honeypot application, Tor, and components of the ELK stack, allows for consistent yet reproducible deployments in different deployment environments. The concept of containerisation allows for each service to be individually managed, meaning that resources can be efficiently allocated and faults can easily be identified. More importantly, the isolation provided by Docker containers helps to maintain the security of each service individually and for the whole architecture, since every component is confined to its execution environment.
+
 ## 2.4 ELK stack integration
 
 <!-- 115 words -->
