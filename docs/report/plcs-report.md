@@ -64,6 +64,9 @@ The choice to integrate the ELK stack (Elasticsearch, Logstash, and Kibana) was 
 ## 2.5 Tor hidden service integration
 
 <!-- 115 words maximum -->
+<!-- Currently  words -->
+
+Including Tor hidden services was a vital design decision, as it not only provides anonymity for the honeypot applications but also helps to lure potential attackers. The accessibility of the honeypot applications, via Tor's `.onion` domains served as a major feature for this project, helping to further increase the availability of these decoy services to malicious entities scanning the Tor network. However, this presented its own set of unique challenges. Although Tor offered several advantages, it was difficult to optimise the speed at which these honeypot applications could be served to the attacker. Ultimately, it provides an additional layer of security making it more taxing for attackers to trace back to the true origins of the vulnerable services, reducing the risk of system compromise for end-users.
 
 # 3 Cyber security considerations
 

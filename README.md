@@ -25,8 +25,9 @@ A series of low interaction honeypot decoy programs (HTTP, FTP, and Telnet) to l
         - [4.2.2.2 FTP honeypot](#4222-ftp-honeypot)
         - [4.2.2.3 Telnet honeypot](#4223-telnet-honeypot)
   - [5 TO-DOs](#5-to-dos)
-  - [6 License](#6-license)
-  - [7 Acknowledgments](#7-acknowledgments)
+  - [6 Contributing](#6-contributing)
+  - [7 License](#7-license)
+  - [8 Acknowledgments](#8-acknowledgments)
 
 ## 1 Project architecture
 
@@ -52,6 +53,7 @@ A series of low interaction honeypot decoy programs (HTTP, FTP, and Telnet) to l
 - Secure and easily managable, since each service is isolated in its own Docker container
 
 > [!WARNING]
+>
 > - Currently, any security features of the ELK stack are temporarily disabled to facilitate the development of the ELK stack.
 > - These will be re-enabled in the future.
 
@@ -84,26 +86,42 @@ You can download and install Docker Compose from the [official Docker website](h
 The services running on each Docker Container use the following ports. Ensure that these ports are free and are not running any conflicting services or have firewall rules concerning them.
 
 - **Tor**:
-    - 9050 (for SOCKS)
+  - 9050 (for SOCKS)
 - **HTTP honeypot**:
-    - 5000 (for Python Flask application)
+  - 5000 (for Python Flask application)
 - **FTP honeypot**:
-    - 21 (default for FTP)
+  - 21 (default for FTP)
 - **Telnet honeypot**:
-    - 23 (default for Telnet)
+  - 23 (default for Telnet)
 - **Elasticsearch**:
-    - 9200 (for HTTP)
-    - 9300 (for TCP transport)
+  - 9200 (for HTTP)
+  - 9300 (for TCP transport)
 - **Logstash**:
-    - 5044 (for Beats input) – currently not using Beats at the moment
-    - 5514 (for HTTP input)
-    - 9600 (for API monitoring endpoint)
+  - 5044 (for Beats input) – currently not using Beats at the moment
+  - 5514 (for HTTP input)
+  - 9600 (for API monitoring endpoint)
 - **Kibana**:
-    - 5601 (for web UI console)
+  - 5601 (for web UI console)
 
 ([back to top](#onion-honeypot))
 
 ## 4 Usage
+
+> [!IMPORTANT]
+> **WARNING: SECURITY RISKS INVOLVED!**
+>
+> - This project utilises Docker containers and the Tor network to deploy the honeypot applications.
+> - While these technologies offer some level of security isolation, there is always a risk of an attacker gaining access to your system.
+> - **Using this project improperly can expose your system to vulnerabilities.**
+> - **Before deploying this project, it is crutial that you:**
+>   - **Fully understand how Docker containers work and the potential security implications of running them.**
+>     - [Use containers to Build, Share and Run your applications – Official Docker documentation](https://www.docker.com/resources/what-container/#:~:text=Containers%20are%20an%20abstraction%20at,isolated%20processes%20in%20user%20space.)
+>     - [Docker security – Official Docker documentation](https://docs.docker.com/engine/security/)
+>   - **Have a strong understanding of the Tor network and its limitations.**
+>     - [About Tor Browser – Official Tor Project documentation](https://tb-manual.torproject.org/about/)
+>     - [Limitations of the Tor network – Official Tails OS documentation](https://tails.net/doc/about/warnings/tor/index.en.html#:~:text=Tor%20hides%20your%20location%20from,using%20HTTP%20instead%20of%20HTTPS.)
+>   - **Are comfortable managing and monitoring system security.**
+> - **iArcanic is not responsible for any misuse or damage caused by this project.**
 
 ([back to top](#onion-honeypot))
 
@@ -129,6 +147,7 @@ docker-compose up
 
 > [!NOTE]
 > With Docker Compose, you can also optionally use the following:
+>
 > - If you want to build the images each time (or changed a Dockerfile), use `docker-compose --build`.
 > - If you want to run all the services in the background, use `docker-compose -d`.
 > After, you can optionally view Docker images, status of containers, and interact with running containers using the Docker Desktop application:
@@ -137,6 +156,7 @@ docker-compose up
 4. Access the Kibana web UI console at [http://localhost:5601](http://localhost:5601).
 
 > [!NOTE]
+>
 > - You may need to give some time (a couple of minutes depending upon your network speed and hardware capabilities) for all containers to run and initialise.
 > - If you are running for the first time or using the `--build` flag, expect it to take some time.
 
@@ -177,6 +197,7 @@ Use the left-hand pane to filter the data based on the selected fields. Here, fo
 Attackers may have several specialised methods and tactics to scan the Tor network for hidden services that host specific protocols. You need to test them so that you have confidence in the functionality of the honeypots, their effectiveness, any false positive scenarios, and whether they may comprise your existing network infrastructure.
 
 > [!WARNING]
+>
 > - To interact and test with a specific honeypot, ensure that the respective Docker container is up and running on your local machine.
 > - Verify this by running `docker ps -a` and identify the name of the honeypot (starts with the prefix `onion-honeypot-...`) and its status.
 > - Alternatively, you could use the Docker Desktop application:
@@ -217,10 +238,12 @@ Upon successful login, you will be redirected to a page like so:
 
 > [!NOTE]
 > For quicker and more efficient testing, add valid credentials (from [`mock-data/user_credentials`](https://github.com/iArcanic/onion-honeypot/blob/main/mock-data/user_credentials.json)) by default to the login fields in [`http-honeypot/src/templates/login.html`](https://github.com/iArcanic/onion-honeypot/blob/main/http-honeypot/src/templates/login.html) by giving the `value` attribute to the `<input>` tags, for example:
+>
 > ```bash
 > <input type="text" id="username" name="username" value="admin" required>
 > <input type="password" id="password" name="password" value="password123" required>
 > ```
+>
 > This way, each time you load the login page, you do not have to manually type in valid credentials.
 
 4. Interact with the honeypot.
@@ -269,6 +292,7 @@ macOS:
 ```
 
 > [!NOTE]
+>
 > - Visit Homebrew's official website [here](https://brew.sh) for more information.
 > - You will require administrative priviledges during the installation process.
 
@@ -416,8 +440,9 @@ macOS:
 ```
 
 > [!NOTE]
-> Visit Homebrew's official website [here](https://brew.sh) for more information.
-> You will require administrative priviledges during the installation process.
+>
+> - Visit Homebrew's official website [here](https://brew.sh) for more information.
+> - You will require administrative priviledges during the installation process.
 
 - Install the `inetutils` package.
 
@@ -595,6 +620,7 @@ You can install the latest version of the Tor Browser from their official websit
 2. Open that `.onion` site in the Tor Browser.
 
 > [!NOTE]
+>
 > - Do not be alarmed if loading pages on the HTTP honeypot is slow!
 > - This is to be expected, since Tor needs to route the HTML content across multiple routers and relays before reaching your device.
 
@@ -617,6 +643,7 @@ macOS:
 ```
 
 > [!NOTE]
+>
 > - Visit Homebrew's official website [here](https://brew.sh) for more information.
 > - You will require administrative priviledges during the installation process.
 
@@ -768,6 +795,7 @@ From here, refer to steps 2-5 of [4.2.1.2 FTP honeypot](#4212-ftp-honeypot).
 ##### 4.2.2.3 Telnet honeypot
 
 > [!NOTE]
+>
 > - Have not yet found a way to access the Telnet honeypot via the `.onion` site.
 > - Currently experimenting with `proxychains` Linux package to force `telnet` command to forward traffic through the runnung Tor daemon.
 > - Since `proxychains` is a Linux only package, could potentially use an Ubuntu based Docker to test this.
@@ -788,13 +816,17 @@ From here, refer to steps 2-5 of [4.2.1.2 FTP honeypot](#4212-ftp-honeypot).
 
 ([back to top](#onion-honeypot))
 
-## 6 License
+## 6 Contributing
+
+For information about contributing to this project, please see [CONTRIBUTING.md](https://github.com/iArcanic/onion-honeypot/blob/main/CONTRIBUTING.md).
+
+## 7 License
 
 Distributed under the MIT License. See the [`LICENSE`](https://github.com/iArcanic/onion-honeypot/blob/main/LICENSE) file or select the "MIT License" tab next to the "README" tab for more details.
 
 ([back to top](#onion-honeypot))
 
-## 7 Acknowledgments
+## 8 Acknowledgments
 
 - [Exemplar Docker ELK stack](https://github.com/deviantony/docker-elk)
 - [Authorization and Authentication-Restrict access to protected routes with Python, Flask and Flask Login – Python Code Nemesis](https://code.likeagirl.io/authorization-and-authentication-restrict-access-to-protected-routes-with-python-flask-and-flask-8e6ef47243ba)
