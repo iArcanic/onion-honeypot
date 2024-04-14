@@ -31,46 +31,39 @@ The development of these honeypot applications involved a variety of different t
 
 <!-- 575 words maximum -->
 
-This section will explain the rationale and reasoning behind the design decisions.
+This section will explain the rationale and reasoning behind two distinct design decisions.
 
 ## 2.1 Programming language
 
-<!-- 115 words maximum -->
-<!-- Currently 120 words -->
+<!-- 287 words maximum -->
+<!-- Currently  words -->
 
-The decision to choose Python to develop the honeypot applications was influenced by multiple key factors. Firstly, Python is a popular language due to its ease of development when it comes to its syntax, including its simplicity and readability. The Python community consists of many experienced developers, meaning there is a huge variety of external libraries that can easily be installed. Some of these libraries formed the basis for networking protocols, such as `pyftpdlib` for FTP, and Flask for HTTP. Python itself also comes with many useful pre-built modules (such as `socket` for Telnet), which enabled the focus to be on developing the core functionality. Furthermore, Python has cross-platform compatibility, allowing it to be portable between Windows, Linux, and macOS.
+The decision to choose Python to develop the honeypot applications was influenced by multiple key factors. Firstly, Python is a popular language due to its ease of development when it comes to its syntax, including its simplicity and readability. The Python community consists of many experienced developers, meaning there is a huge variety of external libraries that can easily be installed. Some of these libraries formed the basis for networking protocols, such as `pyftpdlib` for FTP, and Flask for HTTP. Python itself also comes with many useful pre-built modules (such as `socket` for Telnet), which enabled the focus to be on developing the core functionality. Furthermore, Python has cross-platform compatibility, allowing it to be portable between Windows, Linux, and macOS. A modular and object-oriented approach was chosen to create a codebase that is easily scalable, reusable, and maintainable to facilitate enhancements or modifications. By breaking down the honeypot logic into distinct components, where each component concerns a specific functionality, it makes it easier for developers to test and debug the individual parts of the code. The object-oriented paradigm was taken advantage of to further allow for modularity and reusability, with the advantage of classes encapsulating all similar data and functionality. This further promoted code maintainability, readability, and extensibility, allowing for new features to be implemented without disrupting the original code functionality.
 
-## 2.2 Modular design and Object-Oriented Programming (OOP)
+## 2.2 Containerisation and deployment
 
-<!-- 115 words maximum -->
-<!-- Currently 101 words -->
-
-A modular and object-oriented approach was chosen to create a codebase that is easily scalable, reusable, and maintainable to facilitate enhancements or modifications. By breaking down the honeypot logic into distinct components, where each component concerns a specific functionality, it makes it easier for developers to test and debug the individual parts of the code. The object-oriented paradigm was taken advantage of to further allow for modularity and reusability, with the advantage of classes encapsulating all similar data and functionality. This further promoted code maintainability, readability, and extensibility, allowing for new features to be implemented without disrupting the original code functionality.
-
-## 2.3 Containerisation with Docker
-
-<!-- 115 words maximum -->
+<!-- 288 words maximum -->
 <!-- Currently 110 words -->
 
 The decision to use Docker containers was mainly driven by the need for cross-platform compatibility, service isolation, management, and scalability of the honeypot applications. Packaging each service with the relevant dependencies it requires, including each honeypot application, Tor, and components of the ELK stack, allows for consistent yet reproducible deployments in different deployment environments. The concept of containerisation allows for each service to be individually managed, meaning that resources can be efficiently allocated and faults can easily be identified. More importantly, the isolation provided by Docker containers helps to maintain the security of each service individually and for the whole architecture, since every component is confined to its execution environment.
 
-## 2.4 ELK stack integration
-
-<!-- 115 words maximum -->
-<!-- Currently 124 words -->
-
-The choice to integrate the ELK stack (Elasticsearch, Logstash, and Kibana) was influenced by the need for a secure but comprehensive logging system. Rather than manually implementing a logging system that attackers could use to laterally move throughout the system's architecture, using pre-built solutions would be a wise choice considering vulnerable services are hosted via the honeypots. Elasticsearch was used as the primary data store, providing an effective way to ingest, query, and index incoming logs. Logstash applied filters to those logs, enriched them, and made them suitable for analysis. Kibana, the web interface, enables users to explore and gain insight from gathered results. This can be used to make data-driven decisions and help secure technical aspects of systems hosting HTTP, FTP, or Telnet.
-
-## 2.5 Tor hidden service integration
-
-<!-- 115 words maximum -->
-<!-- Currently  words -->
-
-Including Tor hidden services was a vital design decision, as it not only provides anonymity for the honeypot applications but also helps to lure potential attackers. The accessibility of the honeypot applications, via Tor's `.onion` domains served as a major feature for this project, helping to further increase the availability of these decoy services to malicious entities scanning the Tor network. However, this presented its own set of unique challenges. Although Tor offered several advantages, it was difficult to optimise the speed at which these honeypot applications could be served to the attacker. Ultimately, it provides an additional layer of security making it more taxing for attackers to trace back to the true origins of the vulnerable services, reducing the risk of system compromise for end-users.
-
 # 3 Cyber security considerations
 
 <!-- 575 words maximum -->
+
+## 3.1 Integrating Tor hidden services
+
+<!-- 287 words maximum -->
+<!-- Currently 126 words -->
+
+Including Tor hidden services was a vital design decision, as it not only provides anonymity for the honeypot applications but also helps to lure potential attackers. The accessibility of the honeypot applications, via Tor's `.onion` domains served as a major feature for this project, helping to further increase the availability of these decoy services to malicious entities scanning the Tor network. However, this presented its own set of unique challenges. Although Tor offered several advantages, it was difficult to optimise the speed at which these honeypot applications could be served to the attacker. Ultimately, it provides an additional layer of security making it more taxing for attackers to trace back to the true origins of the vulnerable services, reducing the risk of system compromise for end-users.
+
+## 3.2 Integrating the ELK stack
+
+<!-- 288 words maximum -->
+<!-- Currently 124 words -->
+
+The choice to integrate the ELK stack (Elasticsearch, Logstash, and Kibana) was influenced by the need for a secure but comprehensive logging system. Rather than manually implementing a logging system that attackers could use to laterally move throughout the system's architecture, using pre-built solutions would be a wise choice considering vulnerable services are hosted via the honeypots. Elasticsearch was used as the primary data store, providing an effective way to ingest, query, and index incoming logs. Logstash applied filters to those logs, enriched them, and made them suitable for analysis. Kibana, the web interface, enables users to explore and gain insight from gathered results. This can be used to make data-driven decisions and help secure technical aspects of systems hosting HTTP, FTP, or Telnet.
 
 # 4 Conclusion
 
