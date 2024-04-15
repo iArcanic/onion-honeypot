@@ -27,6 +27,8 @@ The attackers will have their specialised enumeration methods to find the honeyp
 
 The development of these honeypot applications involved a variety of different technologies and paradigms. Most notably, Python (including libraries), Object-Oriented Programming (OOP), modular programming, and Docker. The reasoning behind these choices is to ensure that the honeypot applications are lightweight and reliable, whilst also incorporating security best practices.
 
+For more information on the full code implementation, please see a link to the GitHub repository in [Appendix 5.1](#51-github-repository).
+
 # 2 Design decisions
 
 <!-- 575 words maximum -->
@@ -38,9 +40,40 @@ This section will explain the rationale and reasoning behind two distinct design
 <!-- 287 words maximum -->
 <!-- Currently 281 words -->
 
-The decision to choose Python to develop the honeypot applications was influenced by multiple key factors. Firstly, Python is a popular language due to its ease of development when it comes to its intuitive syntax simplicity, and readability. The Python ecosystem provides access to a huge variety of external libraries that can easily be installed. Some of these libraries formed the basis for networking protocols, for example, the `pyftpdlib` for FTP, and Flask for HTTP. Python itself also comes with many useful pre-built modules (such as `socket` for Telnet), which enabled the focus to be solely on developing the core functionality. Beyond the inherent developer friendliness and versatility, Python has cross-platform compatibility, allowing it to be portable between Windows, Linux, and macOS. Being portable is a major benefit, as it allows for the honeypot solution to be easily replicable and accessible.
+The decision to choose Python to develop the honeypot applications was influenced by multiple key factors. Firstly, Python is a popular language due to its ease of development when it comes to its intuitive syntax simplicity, and readability. The Python ecosystem provides access to a huge variety of external libraries that can easily be installed. Some of these libraries formed the basis for networking protocols, for example, the `pyftpdlib` for FTP, and Flask for HTTP. Python itself also comes with many useful pre-built modules (such as `socket` for Telnet), which enabled the focus to be solely on developing the core functionality.
 
-In terms of programming paradigms, a modular and object-oriented approach was adopted to create a codebase that is easily scalable, reusable, and maintainable to facilitate enhancements or modifications. By breaking down the honeypot logic into distinct, self-contained components, where each component concerns a specific functionality, it makes it easier for developers to test and debug the individual parts of the code. The object-oriented paradigm further reinforces modularity and reusability, with classes being able to encapsulate all similar data and functionality. This promotes code maintainability, readability, and extensibility, allowing for new features to be implemented without disrupting the original code functionality.
+Beyond the inherent developer friendliness and versatility, Python has cross-platform compatibility, allowing it to be portable between Windows, Linux, and macOS. Being portable is a major benefit, as it allows for the honeypot solution to be easily replicable and accessible.
+
+In terms of programming paradigms, a modular and object-oriented approach was adopted to create a codebase that is easily scalable, reusable, and maintainable to facilitate enhancements or modifications. By breaking down the honeypot logic into distinct, self-contained components, where each component concerns a specific functionality, it makes it easier for developers to test and debug the individual parts of the code.
+
+For example, the folder structure within the HTTP honeypot Flask application is categorised into separate folders, where each folder represents a component of the website.
+
+```plain
+src (or source folder containing app code)
+├── models
+│   ├── user.py
+├── routes (logic for page routes)
+│   ├── login.py
+│   ├── logout.py
+│   ├── directory_listing.py
+├── templates (HTML folder for page UI)
+│   ├── login.html
+│   ├── directory_listing.html
+├── utils (utility functions)
+│   ├── log_handler.py
+```
+
+Each component can be called with an `import` statement when required, keeping each file contained and simple.
+
+The object-oriented paradigm further reinforces modularity and reusability, with classes being able to encapsulate all similar data and functionality. This promotes code maintainability, readability, and extensibility, allowing for new features to be implemented without disrupting the original code functionality.
+
+To demonstrate an example from the FTP honeypot, the `pyftpdlib` itself has a function called `FTPHandler`. However, since the honeypot required more of a specialised implementation for logging capabilities, the original `FTPHandler` function had to be overridden but still extended the functionality base class. Below is the `on_login_failed()` function that has been overridden with custom logic.
+
+```bash
+class CustomFTPHandler(FTPHandler):
+    def on_login_failed(self, username, password):
+        log_auth(self, username, password)
+```
 
 In essence, the powerful combination of Python being developer-centric, cross-platform capabilities, and the application of both an object-oriented and modular design results in a honeypot solution that is easy to adapt, flexible, robust, and extensible to meet necessary security requirements.
 
@@ -49,9 +82,27 @@ In essence, the powerful combination of Python being developer-centric, cross-pl
 <!-- 288 words maximum -->
 <!-- Currently 284 words -->
 
-The decision to use Docker containers was mainly driven by the need for cross-platform compatibility, service isolation, management, and scalability of the honeypot applications. Packaging each service – the honeypot applications, Tor, and components of the ELK stack – with the relevant dependencies it requires, consistent yet reproducible deployments in different deployment environments. The concept of containerisation allows for each service to be individually managed, meaning that resources can be efficiently allocated as needed. More importantly, the isolation provided by Docker containers helps to maintain the overall security of the system, since every component is confined to its execution environment.
+The decision to use Docker containers was mainly driven by the need for cross-platform compatibility, service isolation, management, and scalability of the honeypot applications. Packaging each service – the honeypot applications, Tor, and components of the ELK stack – with the relevant dependencies it requires, consistent yet reproducible deployments in different deployment environments.
 
-This modular and container-based architecture approach offers multiple benefits. Since each Docker container is essentially a virtual machine running a lightweight fork of Linux, it can seamlessly run on a wide range of architectures being bundled with all the necessary packages each application needs. Not only is it beneficial in a production environment, but also when developing, the use of Docker image caching allows for the containers to be built quickly and efficiently each time a change is made. It also circumvents the limitations users may have on their local machine, such as deprecated devices that don't support the latest packages – the only requirement being raw hardware power.
+For example, in the Telnet honeypot, all necessary Python libraries and packages are installed from Linux and from the `requirements.txt` file.
+
+```dockerfile
+# Install Python system packages
+RUN apk update && apk add --no-cache python3 python3-dev py3-pip
+
+# Install required Python libraries
+RUN pip3 install -r requirements.txt
+```
+
+The concept of containerisation allows for each service to be individually managed, meaning that resources can be efficiently allocated as needed. More importantly, the isolation provided by Docker containers helps to maintain the overall security of the system, since every component is confined to its execution environment.
+
+This modular and container-based architecture approach offers multiple benefits. Since each Docker container is essentially a virtual machine running a lightweight fork of Linux. For every Docker container, excluding the ELK stack, a base image from the Alpine Linux distribution is used.
+
+```dockerfile
+FROM alpine:latest
+```
+
+This means it can seamlessly run on a wide range of architectures being bundled with all the necessary packages each application needs. Not only is it beneficial in a production environment, but also when developing, the use of Docker image caching allows for the containers to be built quickly and efficiently each time a change is made. It also circumvents the limitations users may have on their local machine, such as deprecated devices that don't support the latest packages – the only requirement being raw hardware power.
 
 In terms of security, each Docker container is isolated, so the attack surface is minimised as much as possible. A vulnerability within one honeypot service would be contained within its container, preventing cross-contamination with other containers. Any exploits that attackers attempt to use will expose faults within that specific container. This is helpful to the developer since they are certain that they are only concerned with the codebase for that container making it much easier to develop patches.
 
@@ -83,12 +134,36 @@ Logstash listens for HTTP input from the honeypot applications and applies filte
 
 The Kibana web interface enables users to explore and gain insight from gathered results. As this is a user-friendly tool, the dashboard can be configured in multiple combinations to result in charts, graphs, and tables. This can be used to make data-driven decisions and help secure technical aspects of systems hosting HTTP, FTP, or Telnet.
 
-Most importantly, the reasoning behind why the ELK stack was chosen was that it was a pre-built tool that is widely tested and documented, giving it more of an edge over manual logging systems. The open-source nature of each ELK stack component means that there is a community of experienced developers who have created custom plugins and forks that can be integrated easily into a default ELK stack configuration.
+Most importantly, the reasoning behind why the ELK stack was chosen was that it was a pre-built tool that is widely tested and documented, giving it more of an edge over manual logging systems.
 
-# 4 Conclusion
+For example, in the Dockerfile configuration for Kibana, the container uses the official base image. From this, other custom settings can be applied or overridden.
 
-<!-- 175 words maximum -->
+```dockerfile
+FROM docker.elastic.co/kibana/kibana:8.13.1
+```
+
+The open-source nature of each ELK stack component means that there is a community of experienced developers who have created custom plugins and forks that can be integrated easily into a default ELK stack configuration.
+
+An example of this would be from the Elasticsearch configuration. Here, a YAML file containing default options can be overridden.
+
+```yaml
+# Cluster name
+cluster.name: honeypot-cluster
+
+# Node name
+node.name: honeypot-node
+
+# Network settings
+network.host: 0.0.0.0
+
+# Discovery settings
+discovery.type: single-node
+```
 
 # 5 Appendices
+
+## 5.1 GitHub repository
+
+[https://github.com/iArcanic/onion-honeypot](https://github.com/iArcanic/onion-honeypot)
 
 # 6 References
