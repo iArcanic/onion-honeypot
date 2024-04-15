@@ -73,9 +73,17 @@ Moreover, the use of Tor hidden services also aligns with ethical and legal issu
 ## 3.2 Integrating the ELK stack
 
 <!-- 288 words maximum -->
-<!-- Currently 124 words -->
+<!-- Currently 300 words -->
 
-The choice to integrate the ELK stack (Elasticsearch, Logstash, and Kibana) was influenced by the need for a secure but comprehensive logging system. Rather than manually implementing a logging system that attackers could use to laterally move throughout the system's architecture, using pre-built solutions would be a wise choice considering vulnerable services are hosted via the honeypots. Elasticsearch was used as the primary data store, providing an effective way to ingest, query, and index incoming logs. Logstash applied filters to those logs, enriched them, and made them suitable for analysis. Kibana, the web interface, enables users to explore and gain insight from gathered results. This can be used to make data-driven decisions and help secure technical aspects of systems hosting HTTP, FTP, or Telnet.
+The integration of the ELK (Elasticsearch, Logstash, and Kibana) stack was influenced by the need for a secure but comprehensive logging and visualiation solution to supplement the honeypot applications. Rather than manually implementing a logging system that attackers could use to laterally move throughout the system's architecture, using pre-built solutions would be a wise choice considering vulnerable services are hosted via the honeypots.
+
+Elasticsearch was selected as the main data store, due to its powerful ability to index and query logs. Since Elasticsearch has an inherently robust search engine, the tool can essentially ingest, index, and retrieve large quantities of log data generated continuously by the honeypot applications. The speed of Elasticsearch allows for flexible and quick analysis of all data collected, as its helpful in understanding potential attack surfaces and patterns.
+
+Logstash listens for HTTP input from the honeypot applications and applies filters to the raw incoming log data. The various filters help to render and transform the logs in a format through processes such as normalisation that facilitates effective analysis and visualitation through Kibana.
+
+The Kibana web interface enables users to explore and gain insight from gathered results. As this is a user-friendly tool, the dashboard can be configured in multiple combinations to result in charts, graphs, and tables. This can be used to make data-driven decisions and help secure technical aspects of systems hosting HTTP, FTP, or Telnet.
+
+Most importantly, the reasoning behind why the ELK stack was chosen was that it was a pre-built tool that is widely tested and documented, giving it more of an edge over manual logging systems. The open-source nature of each ELK stack component means that there is a community of experienced developers who have created custom plugins and forks that can be integrated easily into a default ELK stack configuration.
 
 # 4 Conclusion
 
