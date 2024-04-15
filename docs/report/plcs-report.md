@@ -42,17 +42,17 @@ For example, the folder structure within the HTTP honeypot Flask application is 
 
 ```plain
 src (or source folder containing app code)
-├── models
-│   ├── user.py
-├── routes (logic for page routes)
-│   ├── login.py
-│   ├── logout.py
-│   ├── directory_listing.py
-├── templates (HTML folder for page UI)
-│   ├── login.html
-│   ├── directory_listing.html
-├── utils (utility functions)
-│   ├── log_handler.py
+|-- models
+    |-- user.py
+|-- routes (logic for page routes)
+    |-- login.py
+    |-- logout.py
+    |-- directory_listing.py
+|-- templates (HTML folder for page UI)
+    |-- login.html
+    |-- directory_listing.html
+|-- utils (utility functions)
+    |-- log_handler.py
 ```
 
 Each component can be called with an `import` statement when required, keeping each file contained and simple.

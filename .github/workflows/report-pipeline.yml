@@ -39,12 +39,17 @@ jobs:
       - name: Check BibTeX syntax
         run: bibtexlint --glob '**/*.bib' || true
 
+      - name: Set timestamp
+        id: timestamp
+        run: echo "::set-output name=timestamp::$(date +'%Y%m%d%H%M%S')"
+
       - name: Compile report to PDF
         run: |
-          pandoc docs/report/plcs-report.md --filter pandoc-citeproc -o "plcs-report.pdf"
+          timestamp=$(date +"%Y%m%d%H%M%S")
+          pandoc docs/report/plcs-report.md --filter pandoc-citeproc -o "plcs-report-${{ steps.timestamp.outputs.timestamp }}.pdf"
 
       - name: Upload report PDF artifact
         uses: actions/upload-artifact@v2
         with:
           name: plcs-report-artifact
-          path: "plcs-report.pdf"
+          path: "plcs-report-${{ steps.timestamp.outputs.timestamp }}.pdf"
