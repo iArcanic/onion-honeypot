@@ -1,5 +1,5 @@
 # Lightweight Linux distro as the base image
-FROM alpine:latest
+FROM alpine:3.23.3
 
 # Install required dependencies
 RUN apk update && apk add --no-cache python3 python3-dev py3-pip
